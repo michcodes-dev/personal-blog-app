@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ochonogor Michael's Blog</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+</head>
+<body>
+    <header class="navbar">
+        <a href="#home" class="logo">My<span>Blog</span></a>
+
+        <nav class="nav-links">
+           <a href="#" id="home-link" class="active">Home</a>
+           <a href="#" id="create-link">Create</a>
+        </nav>
+
+        <div class="nav-actions">
+            <input type="search" id="search-input" placeholder="Search blogs..."/>
+
+            <button class="profile-button">M</button>
+        </div>
+    </header>
+
+    <main>
+        <div id="home-view">
+            <section class="hero-section" id="home">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1>My Thoughts,<br/><span>My Blog</span></h1>
+                        <p>
+                            Sharing ideas, experiences and things<br/>
+                            that matter to me.
+                        </p>
+                    </div>
+
+                    <button id="create-post-button">+ Create New Post</button>
+                </div>
+            </section>
+            
+            <section class="posts-section" id="posts">
+                <div class="posts-top">
+                    <h2>Latest Posts</h2>
+
+                    <div class="filter-buttons">
+                        <button class="filter-button active" data-category="All">All Posts</button>
+                        <button class="filter-button" data-category="JavaScript">JavaScript</button>
+                        <button class="filter-button" data-category="Web Development">Web Development</button>
+                        <button class="filter-button" data-category="Coding Journey">Coding Journey</button>
+                        <button class="filter-button" data-category="Tech & Memes">Tech & Memes</button>
+                    </div>
+                </div>
+                
+                <div class="blog-grid" id="blog-list"></div>
+            </section>
+        </div>
+        
+        <section class="create-section" id="create-view">
+            <div class="create-heading">
+                <h2>Create New Post</h2>
+                <p>Share your thoughts with the world.</p>
+            </div>
+            
+            <div class="create-layout">
+                <form id="post-form" class="post-form">
+                    <label for="post-title">Title <span>*</span></label>
+                    <input type="text" id="post-title" placeholder="Enter your blog title" required/>
+                    
+                    <label for="post-description">Description <span>*</span></label>
+                    <textarea id="post-description" placeholder="Write a short description..." required></textarea>
+                    
+                    <label for="post-content">Content <span>*</span></label>
+                    <textarea id="post-content" class="content-input" placeholder="Write your full blog content..." required></textarea>
+                    
+                    <label for="post-image">Featured Image</label>
+                    <input type="file" id="post-image" accept="image/*"/>
+                    
+                    <label for="post-category">Category <span>*</span></label>
+                    <select id="post-category" required>
+                        <option value="">Choose a category</option>
+                        <option value="JavaScript">JavaScript</option>
+                        <option value="Web Development">Web Development</option>
+                        <option value="Coding Journey">Coding Journey</option>
+                        <option value="Tech & Memes">Tech & Memes</option>
+                    </select>
+                    
+                    <label for="post-tags">Tags <small>(optional)</small></label>
+                    <input type="text" id="post-tags" placeholder="e.g. JavaScript, CSS, Web Development"/>
+                    
+                    <div class="form-actions">
+                        <button type="button" id="cancel-post-button">Cancel</button>
+                        <button type="submit" id="publish-post-button">Publish Post</button>
+                    </div>
+                </form>
+                
+                <aside class="preview-panel">
+                    <h3>Preview</h3>
+                    <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=85" alt="Blog post preview" class="preview-image" id="preview-image"/>
+                    
+                    <h3 id="preview-title">Your Blog Title</h3>
+                    
+                    <div class="preview-meta">
+                        <span><i class="fa-regular fa-calendar"></i> Today</span>
+                        <span><i class="fa-regular fa-eye"></i> 0</span>
+                        <span><i class="fa-regular fa-comment"></i> 0</span>
+                    </div>
+                    
+                    <p id="preview-description">
+                        Your description will appear here...
+                    </p>
+                </aside>
+            </div>
+        </section>
+
+        <section id="post-view" class="post-view">
+            <a href="#" id="back-to-home-link" class="back-link">&larr; Back to all posts</a>
+            
+            <article class="post-view-article">
+                <img id="post-view-image" class="post-view-image" src="" alt="" />
+                <h1 id="post-view-title"></h1>
+                <div class="post-view-meta">
+                    <span><i class="fa-regular fa-calendar"></i> <span id="post-view-date"></span></span>
+                    <span><i class="fa-regular fa-eye"></i> <span id="post-view-views"></span></span>
+                    <span><i class="fa-regular fa-comment"></i> <span id="post-view-comment-count"></span></span>
+                </div>
+                <p id="post-view-content" class="post-view-content"></p>
+            </article>
+            
+            <section class="comments-section">
+                <h3>Comments (<span id="comments-count">0</span>)</h3>
+                <div id="comments-list"></div>
+                
+                <form id="comment-form" class="comment-form">
+                    <input type="text" id="comment-input" placeholder="Add a comment..." required />
+                    <button type="submit">Post</button>
+                </form>
+            </section>
+        </section>
+    </main>
+    <script src="js/script.js"></script>
+</body>
+</html>
