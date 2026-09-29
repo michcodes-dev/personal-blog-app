@@ -200,6 +200,8 @@ blogList.addEventListener("click", (event) => {
     const selectedBlog = blogs.find((blog) => blog.id === blogId);
     if (!selectedBlog)
         return;
+    const slug = createSlug(selectedBlog.title);
+    window.location.hash = `post/${slug}`;
     if (homeView && postView) {
         homeView.style.display = "none";
         postView.style.display = "block";
@@ -288,17 +290,38 @@ const backToHomeLink = document.getElementById("back-to-home-link");
 if (backToHomeLink) {
     backToHomeLink.addEventListener("click", (event) => {
         event.preventDefault();
+        window.location.hash = "home";
         showHomeView();
     });
 }
+function createSlug(title) {
+    return title
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g, "")
+        .replace(/\s+/g, "-");
+}
 let activeCategory = "All";
 function showSelectedPosts() {
-    const postsToShow = activeCategory === "All"
+    const searchInput = document.getElementById("search-input");
+    const searchTerm = searchInput?.value.toLowerCase().trim() || "";
+    let postsToShow = activeCategory === "All"
         ? blogs
         : blogs.filter((blog) => blog.category === activeCategory);
+    if (searchTerm) {
+        postsToShow = postsToShow.filter((blog) => {
+            return (blog.title.toLowerCase().includes(searchTerm) ||
+                blog.description.toLowerCase().includes(searchTerm) ||
+                blog.content.toLowerCase().includes(searchTerm));
+        });
+    }
     renderPosts(postsToShow);
 }
 const filterButtons = document.querySelectorAll(".filter-button");
+const searchInput = document.getElementById("search-input");
+searchInput?.addEventListener("input", () => {
+    showSelectedPosts();
+});
 filterButtons.forEach((button) => {
     button.addEventListener("click", () => {
         activeCategory = button.dataset.category;
@@ -322,14 +345,21 @@ function setActiveNav(activeLink) {
     activeLink.classList.add("active");
 }
 function showCreateView() {
-    if (!homeView || !createView) {
+    if (!homeView || !createView || !postView) {
         return;
     }
     homeView.style.display = "none";
     createView.style.display = "block";
+    postView.style.display = "none";
+    animateView(createView);
     if (createLink) {
         setActiveNav(createLink);
     }
+}
+function animateView(view) {
+    view.classList.remove("view-enter");
+    void view.offsetWidth;
+    view.classList.add("view-enter");
 }
 function showHomeView() {
     if (!homeView || !createView || !postView) {
@@ -338,8 +368,45 @@ function showHomeView() {
     homeView.style.display = "block";
     createView.style.display = "none";
     postView.style.display = "none";
+    animateView(homeView);
     if (homeLink) {
         setActiveNav(homeLink);
+    }
+}
+function showPostBySlug(slug) {
+    if (!homeView || !createView || !postView) {
+        return;
+    }
+    const selectedBlog = blogs.find((blog) => createSlug(blog.title) === slug);
+    if (!selectedBlog) {
+        showHomeView();
+        return;
+    }
+    homeView.style.display = "none";
+    createView.style.display = "none";
+    postView.style.display = "block";
+    animateView(postView);
+    const postViewTitle = document.getElementById("post-view-title");
+    const postViewImage = document.getElementById("post-view-image");
+    const postViewDate = document.getElementById("post-view-date");
+    const postViewViews = document.getElementById("post-view-views");
+    const postViewContent = document.getElementById("post-view-content");
+    if (postViewTitle) {
+        postViewTitle.textContent = selectedBlog.title;
+    }
+    if (postViewImage) {
+        postViewImage.src = selectedBlog.image;
+        postViewImage.alt = selectedBlog.title;
+    }
+    if (postViewDate) {
+        postViewDate.textContent = selectedBlog.date;
+    }
+    if (postViewViews) {
+        postViewViews.textContent = selectedBlog.views;
+    }
+    if (postViewContent) {
+        postViewContent.textContent =
+            selectedBlog.content || selectedBlog.description;
     }
 }
 if (createLink) {
@@ -477,3 +544,14 @@ if (cancelPostButton) {
         showHomeView();
     });
 }
+function handleRoute() {
+    const hash = window.location.hash;
+    if (hash.startsWith("#post/")) {
+        const slug = decodeURIComponent(hash.replace("#post/", ""));
+        showPostBySlug(slug);
+        return;
+    }
+    showHomeView();
+}
+window.addEventListener("hashchange", handleRoute);
+handleRoute();

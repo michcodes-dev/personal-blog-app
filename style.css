@@ -120,10 +120,21 @@ body {
   border: none;
   border-radius: 7px;
   cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 #create-post-button:hover {
   background-color: #ff8d3a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 117, 24, 0.2);
+}
+
+#create-post-button:active {
+  transform: translateY(0);
+  box-shadow: none;
 }
 
 .posts-section {
@@ -175,6 +186,31 @@ body {
   background-color: #0b151e;
   border: 1px solid #263847;
   border-radius: 8px;
+
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+
+  animation: cardReveal 0.6s ease both;
+}
+
+.blog-card:hover {
+  transform: translateY(-6px);
+  border-color: #ff7518;
+  box-shadow: 0 12px 30px rgba(255, 117, 24, 0.12);
+}
+
+@keyframes cardReveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .blog-image {
@@ -182,6 +218,12 @@ body {
   height: 145px;
   display: block;
   object-fit: cover;
+
+  transition: transform 0.5s ease;
+}
+
+.blog-card:hover .blog-image {
+  transform: scale(1.06);
 }
 
 .blog-card-content {
@@ -239,6 +281,8 @@ body {
 .nav-links a {
   position: relative;
   padding: 27px 0;
+
+  transition: color 0.25s ease;
 }
 
 .nav-links a.active {
@@ -254,6 +298,20 @@ body {
   height: 3px;
   background-color: #ff7518;
   border-radius: 4px;
+
+  transform: scaleX(1);
+  transform-origin: center;
+  animation: navUnderline 0.3s ease;
+}
+
+@keyframes navUnderline {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
 }
 
 #create-view {
@@ -427,18 +485,24 @@ body {
 }
 
 #publish-post-button {
-    background: #ff6b00;
-    color: #ffffff;
+  background: #ff6b00;
+  color: #ffffff;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 #publish-post-button:hover {
-    background: #e85f00;
-    transform: translateY(-1px);
+  background: #e85f00;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 107, 0, 0.18);
 }
 
-/* =========================
-   PREVIEW PANEL
-========================= */
+#publish-post-button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
 
 .preview-panel {
     background: #081016;
@@ -618,6 +682,22 @@ body {
 
 .comment-form button:hover {
   background: #e85f00;
+}
+
+.view-enter {
+  animation: viewEnter 0.4s ease both;
+}
+
+@keyframes viewEnter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* =========================
